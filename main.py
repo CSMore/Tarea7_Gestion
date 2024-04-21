@@ -1,32 +1,31 @@
 from fastapi import FastAPI, status, HTTPException
 from fastapi.responses import JSONResponse
 import pandas as pd
-import joblib
-
+# import joblib
 
 app = FastAPI(
     title="Deploy Social Network Adds",
     version="0.0.1"
 )
 
+
 # ------------------------------------------------------------
 # LOAD THE AI MODEL
 # ------------------------------------------------------------
-#model = joblib.load("model/linear_regression_model_v01.pkl")
+# model = joblib.load("model/linear_regression_model_v01.pkl")
 
 
 @app.post(path="/api/v1/predict-social-network-adds", tags=["social-network-adds"])
 async def predict(
-    Gender: float,
-    Age: float,
-    EstimatedSalary
+        gender: float,
+        age: float,
+        estimated_salary: float
 ):
     dictionary = {
-        "Gender": Gender,
-        "Age": Age,
-        "EstimatedSalary": EstimatedSalary
+        "Gender": gender,
+        "Age": age,
+        "EstimatedSalary": estimated_salary
     }
-
 
     try:
         df = pd.DataFrame(dictionary, index=[0])
