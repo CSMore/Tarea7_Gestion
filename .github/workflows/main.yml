@@ -25,7 +25,7 @@ jobs:
       run: docker build -t csmore/end-point-social-adds:v1 .
 
     - name: Docker push to Dockerhub
-      run: docker push csmore/end-point-social-adds:v1 .
+      run: docker push csmore/end-point-social-adds:v1
 
 
 
