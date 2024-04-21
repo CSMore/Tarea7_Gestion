@@ -12,19 +12,31 @@ app = FastAPI(
 # ------------------------------------------------------------
 # LOAD THE AI MODEL
 # ------------------------------------------------------------
-model = joblib.load("model/linear_regression_model_v01.pkl")
+#model = joblib.load("model/linear_regression_model_v01.pkl")
 
 
-@app.post("/predict/")
-async def predict(data: dict):
+@app.post(path="/api/v1/predict-social-network-adds", tags=["social-network-adds"])
+async def predict(
+    Gender: float,
+    Age: float,
+    EstimatedSalary
+):
+    dictionary = {
+        "Gender": Gender,
+        "Age": Age,
+        "EstimatedSalary": EstimatedSalary
+    }
+
+
     try:
-        # Convertir los datos de entrada en un DataFrame
-        input_data = pd.DataFrame([data])
-
-        # Realizar la predicción utilizando el modelo cargado
-        prediction = model.predict(input_data)
-
-        # Devolver la predicción como JSON utilizando JSONResponse
-        return JSONResponse(content={"prediction": prediction[0]})
+        df = pd.DataFrame(dictionary, index=[0])
+        # prediction = model.predict(df)
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content=1
+        )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(
+            detail=str(e),
+            status_code=status.HTTP_400_BAD_REQUEST
+        )
